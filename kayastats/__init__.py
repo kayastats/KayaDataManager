@@ -1,4 +1,4 @@
-from parser_manager import config
+from kayastats import config
 
 
 VERSION_PATH = config.PACKAGE_ROOT / 'VERSION'
