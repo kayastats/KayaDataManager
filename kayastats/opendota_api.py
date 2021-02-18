@@ -30,6 +30,7 @@ def get_pro_matches_list(*, from_date: int = config.CURRENT_PATCH_DATE) -> list:
     while True:
         print("Requesting next 100 matches...")
         params = {"less_than_match_id": last_match_id}
+        time.sleep(1)  # opendota free tier limit 60 requests per minute
         req = requests.get(url, params=params)
         try:
             if req.status_code != 200:
@@ -42,6 +43,7 @@ def get_pro_matches_list(*, from_date: int = config.CURRENT_PATCH_DATE) -> list:
             if match["start_time"] > from_date:
                 last_match_id = match["match_id"]
                 replay_req_params = {"match_id": last_match_id}
+                time.sleep(1)  # opendota free tier limit 60 requests per minute
                 replay_req = requests.get(replay_req_url, params=replay_req_params)
                 try:
                     if replay_req.status_code != 200:
@@ -57,13 +59,11 @@ def get_pro_matches_list(*, from_date: int = config.CURRENT_PATCH_DATE) -> list:
                                   "cluster": replay_json_response["cluster"],
                                   "replay_salt": replay_json_response["replay_salt"],
                                   "replay_parsed": False}]
-                time.sleep(1)  # opendota free tier limit 60 requests per minute
             else:
                 print("Date {} reached.".format(from_date))
                 print("Total number of matches collected: {}\n".format(len(matches_list)))
                 return matches_list
         print("{} matches collected already\n".format(len(matches_list)))
-        time.sleep(1)  # opendota free tier limit 60 requests per minute
 
 
 if __name__ == "__main__":

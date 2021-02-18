@@ -32,7 +32,7 @@ def parse(*, matches_list_filename: str) -> None:
             save_parsed_replay(data=parsed_data, match_id=match["match_id"])
             print("Successfully parsed and saved replay with match_id={}".format(match["match_id"]))
             match["replay_parsed"] = True
-    save_matches_list(matches_list, filename=matches_list_filename)
+            save_matches_list(matches_list, filename=matches_list_filename)
     print("\nAll given matches parsed\n")
 
 
