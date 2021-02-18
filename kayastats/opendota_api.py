@@ -1,6 +1,4 @@
 import time
-import json
-from datetime import datetime
 
 import requests
 from tqdm import tqdm
@@ -33,6 +31,11 @@ def get_pro_matches_list(*, from_date: int = config.CURRENT_PATCH_DATE) -> list:
         print("Requesting next 100 matches...")
         params = {"less_than_match_id": last_match_id}
         req = requests.get(url, params=params)
+        try:
+            if req.status_code != 200:
+                raise ConnectionError("Error while data request")
+        except ConnectionError:
+            continue
         json_response = req.json()
 
         for match in tqdm(json_response):
@@ -40,7 +43,12 @@ def get_pro_matches_list(*, from_date: int = config.CURRENT_PATCH_DATE) -> list:
                 last_match_id = match["match_id"]
                 replay_req_params = {"match_id": last_match_id}
                 replay_req = requests.get(replay_req_url, params=replay_req_params)
-                replay_json_response = replay_req.json()[0]
+                try:
+                    if replay_req.status_code != 200:
+                        raise ConnectionError("Error while data request")
+                    replay_json_response = replay_req.json()[0]
+                except (ConnectionError, KeyError):
+                    continue
                 matches_list += [{"match_id": match["match_id"],
                                   "date": match["start_time"],
                                   "radiant_team": match["radiant_name"],
