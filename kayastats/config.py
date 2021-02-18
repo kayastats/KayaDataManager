@@ -10,3 +10,6 @@ CURRENT_PATCH = '7.28'
 CURRENT_PATCH_DATE = datetime.strptime('2020-12-18', "%Y-%m-%d").timestamp()
 
 MATCHES_LIST_PATH = PACKAGE_ROOT / 'collected_data'
+PARSED_REPLAYS_PATH = PACKAGE_ROOT / 'collected_data' / 'parsed_replays'
+
+REPLAY_PARSER_URL = 'http://localhost:5600/'
