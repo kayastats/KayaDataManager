@@ -1,3 +1,10 @@
+# collected data path
+collected_data/
+
+
+####
+# Template for Python
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -108,6 +115,3 @@ venv.bak/
 
 # pickle files
 *.pkl
-
-# collected data path
-collected_data/
